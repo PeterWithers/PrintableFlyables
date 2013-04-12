@@ -49,6 +49,7 @@ module MakeHollowFoil(span, length, height, wall){
 	}
 }
 
+// This version failed to print the inner struts on skeinforge 50. 
 // This version makes a foil that is solid but sliced so that skeinforge adds peremiters around the internal struts. This should solve the thin walled problem but must be printed with FILL turned off. 
 module MakeSlicedFoil(span, length, height, wall){
 	difference(){
@@ -59,6 +60,6 @@ module MakeSlicedFoil(span, length, height, wall){
 		}
 	}
 }
-MakeSlicedFoil(50,80,10,0.3);
-//MakeHollowFoil(100,80,10,0.3);
+//MakeSlicedFoil(50,80,10,0.3);
+MakeHollowFoil(100,80,10,0.3);
 //MakeFoil(100,50,10);
