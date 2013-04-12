@@ -34,6 +34,8 @@ module MakeFoil(span, length, height, wall){
 		translate([lengthShift * 9 - length / 2,0,0]) circle(r = height / 2 * 0.5 - wall);
 	}
 }
+
+// This version makes a foil that is thin walled. In skeinforge 50 at least when this version is printed the tool path is always the same for each layer. As a result most corners have one edge that will probably break or might never have joined when printing
 module MakeHollowFoil(span, length, height, wall){
 	difference(){
 		MakeFoil(span,length,height,0);
@@ -46,5 +48,17 @@ module MakeHollowFoil(span, length, height, wall){
 		}
 	}
 }
-MakeHollowFoil(100,80,10,0.3);
+
+// This version makes a foil that is solid but sliced so that skeinforge adds peremiters around the internal struts. This should solve the thin walled problem but must be printed with FILL turned off. 
+module MakeSlicedFoil(span, length, height, wall){
+	difference(){
+		MakeFoil(span,length,height,0);
+		translate([0,0,span/2])cube([length+10,0.1,span], center =true);
+		for (strutPos = [length/5,0,-(length/5)]) {
+			translate([strutPos,0,span/2])cube([0.1,height,span], center =true);
+		}
+	}
+}
+MakeSlicedFoil(50,80,10,0.3);
+//MakeHollowFoil(100,80,10,0.3);
 //MakeFoil(100,50,10);
