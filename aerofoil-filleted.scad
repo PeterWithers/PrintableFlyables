@@ -81,15 +81,40 @@ aerofoilData = [[1.000000,0.001356],
 [0.990700,-0.001745],
 [0.997540,-0.001453],
 [1.000000,-0.001348]];
-
+strutIndexes = [[5, 70], [70, 10], [10, 65], [65,15], [15, 60], [60,20], [20, 55], [55,25], [25, 50], [50,30], [30,45], [35, 45]];
 module makeFoilPoints(chordLength, padding){
 	for (vertex = aerofoilData){
 		translate([vertex[0]*chordLength, vertex[1]*chordLength, 0])
 		circle(r=padding, center=true);
 	}
 }
+module makeOuter(chordLength){
+	difference(){
+		hull() makeFoilPoints(chordLength, 0.4);
+		hull() makeFoilPoints(chordLength, 0.1);
+	}
+}
+module makeStruts(chordLength, filetSize){
+	intersection() {
+		hull() makeFoilPoints(chordLength, 0.4);
+		for (strut = strutIndexes){
+			// make the struts
+			hull(){
+				translate([aerofoilData[strut[0]][0]*chordLength, aerofoilData[strut[0]][1]*chordLength, 0]) circle(r=0.3/2, center=true);
+				translate([aerofoilData[strut[1]][0]*chordLength, aerofoilData[strut[1]][1]*chordLength, 0]) circle(r=0.3/2, center=true);
+			}
+			// make the fillets
+			translate([aerofoilData[strut[0]][0]*chordLength, aerofoilData[strut[0]][1]*chordLength, 0]) scale([1/10, 1/10, 1/10]) circle(r=filetSize*10, center=true);
+			// do the other pair so that the first and last filet are made even though this doubles up a few
+			translate([aerofoilData[strut[1]][0]*chordLength, aerofoilData[strut[1]][1]*chordLength, 0]) scale([1/10, 1/10, 1/10]) circle(r=filetSize*10, center=true);
+		}
+	}
+}
+module makeAeroFoil(chordLength, spanLength){
+	linear_extrude(height = spanLength){
+		makeOuter(chordLength);
+		makeStruts(chordLength, 0.7);
+	}
+}
 
-hull() makeFoilPoints(100, 0.3);
-
-
-
+makeAeroFoil(140, 100);
