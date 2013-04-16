@@ -62,4 +62,4 @@ module MakeSlicedFoil(span, length, height, wall){
 }
 //MakeSlicedFoil(50,80,10,0.3);
 MakeHollowFoil(100,80,10,0.3);
-//MakeFoil(100,50,10);
+//MakeFoil(50,80,10,0);
