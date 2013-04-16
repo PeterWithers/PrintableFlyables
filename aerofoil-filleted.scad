@@ -81,7 +81,7 @@ aerofoilData = [[1.000000,0.001356],
 [0.990700,-0.001745],
 [0.997540,-0.001453],
 [1.000000,-0.001348]];
-strutIndexes = [[5, 70], [70, 10], [10, 65], [65,15], [15, 60], [60,20], [20, 55], [55,25], [25, 50], [50,30], [30,45], [35, 45]];
+strutIndexes = [[5, 70], [70, 10], [10, 65], [65,15], [15, 60], [60,20], [20, 55], [55,25], [25, 50], [50,30], [30,45], [35, 45], [45, 40]];
 module makeFoilPoints(chordLength, padding){
 	for (vertex = aerofoilData){
 		translate([vertex[0]*chordLength, vertex[1]*chordLength, 0])
@@ -113,8 +113,8 @@ module makeStruts(chordLength, filetSize){
 module makeAeroFoil(chordLength, spanLength){
 	linear_extrude(height = spanLength){
 		makeOuter(chordLength);
-		makeStruts(chordLength, 0.7);
+		makeStruts(chordLength, 1.4);
 	}
 }
 
-makeAeroFoil(140, 100);
+makeAeroFoil(80, 50);
