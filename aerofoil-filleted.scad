@@ -82,6 +82,7 @@ aerofoilData = [[1.000000,0.001356],
 [0.997540,-0.001453],
 [1.000000,-0.001348]];
 strutIndexes = [[5, 70], [70, 10], [10, 65], [65,15], [15, 60], [60,20], [20, 55], [55,25], [25, 50], [50,30], [30,45], [35, 45], [35, 40]];
+ribHoles = [[0.05,0.005,0.025],[0.15,0.02,0.035],[0.27,0.025,0.04],[0.39,0.025,0.037],[0.51,0.025,0.03],[0.61,0.025,0.025],[0.71,0.020,0.02],[0.81,0.015,0.015]];
 module makeFoilPoints(chordLength, padding){
 	for (vertex = aerofoilData){
 		translate([vertex[0]*chordLength, vertex[1]*chordLength, 0])
@@ -110,11 +111,27 @@ module makeStruts(chordLength, spanLength, filetSize){
 			}
 		}
 }
+
 module makeStrutsWithHoles(chordLength, spanLength, filetSize){
 	difference(){
 		linear_extrude(height = spanLength) makeStruts(chordLength, spanLength, filetSize);
 		for (holePos = [0:5:spanLength]) translate([0, 0,holePos])
 		rotate(a=[0,90,1.5]) cylinder(h = chordLength, r = 2, center = false);
+	}
+}
+
+module makeRibs(chordLength, spanLength){
+	intersection() {
+			difference(){
+				linear_extrude(height = spanLength) hull() makeFoilPoints(chordLength, 0.6);
+				//for (holePos = [0:5:chordLength]) { translate([holePos, 0, 0])
+				for (ribHole = ribHoles) {
+					translate([ribHole[0]*chordLength, ribHole[1]*chordLength, spanLength/2])
+					cylinder(h = chordLength, r = ribHole[2]*chordLength, center = true);	
+				}
+			}
+			for (ribPos = [0:10:spanLength]) translate([-5, -chordLength/2, ribPos]) cube([chordLength+10,chordLength,0.5]);
+//		linear_extrude(height = spanLength) makeStruts(chordLength, spanLength, filetSize);
 	}
 }
 module makeAeroFoil(chordLength, spanLength){
@@ -124,4 +141,13 @@ module makeAeroFoil(chordLength, spanLength){
 		makeStrutsWithHoles(chordLength, spanLength, 0.6);
 	}
 }
-translate([-40, 0,0]) makeAeroFoil(80, 50);
+module makeAeroFoilRibbed(chordLength, spanLength){
+	// translate([0,-14.5,0]) cube([chordLength,10,5]);
+	rotate(a=[0,0,-2.5]) 
+	union(){
+		%linear_extrude(height = spanLength) makeOuter(chordLength);
+		makeRibs(chordLength, spanLength);
+	}
+}
+//translate([-40, 0,0]) makeAeroFoil(80, 50);
+translate([-40, 0,0]) makeAeroFoilRibbed(80, 50.5);
