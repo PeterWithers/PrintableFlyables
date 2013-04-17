@@ -120,6 +120,15 @@ module makeStrutsWithHoles(chordLength, spanLength, filetSize){
 	}
 }
 
+module makeStrutsWithLayers(chordLength, spanLength, filetSize){
+	for (ribPos = [0:9:spanLength]) translate([0, 0, ribPos])
+		linear_extrude(height = 1) makeStruts(chordLength, spanLength, filetSize);
+//	intersection(){
+//		linear_extrude(height = spanLength) makeStruts(chordLength, spanLength, filetSize);
+		//for (ribPos = [0:10:spanLength]) translate([-5, -chordLength/2, ribPos]) cube([chordLength+10,chordLength,2]);
+//	}
+}
+
 module makeRibs(chordLength, spanLength){
 	intersection() {
 			difference(){
@@ -136,9 +145,10 @@ module makeRibs(chordLength, spanLength){
 }
 module makeAeroFoil(chordLength, spanLength){
 	union(){
-		linear_extrude(height = spanLength) makeOuter(chordLength);
+		%linear_extrude(height = spanLength) makeOuter(chordLength);
 		//makeStruts(chordLength, spanLength, 0.6);
-		makeStrutsWithHoles(chordLength, spanLength, 0.6);
+		//makeStrutsWithHoles(chordLength, spanLength, 0.6);
+		makeStrutsWithLayers(chordLength, spanLength, 0.4);
 	}
 }
 module makeAeroFoilRibbed(chordLength, spanLength){
@@ -149,5 +159,5 @@ module makeAeroFoilRibbed(chordLength, spanLength){
 		makeRibs(chordLength, spanLength);
 	}
 }
-//translate([-40, 0,0]) makeAeroFoil(80, 50);
-translate([-40, 0,0]) makeAeroFoilRibbed(80, 50.5);
+translate([-40, 0,0]) makeAeroFoil(80, 50);
+//translate([-40, 0,0]) makeAeroFoilRibbed(80, 50.5);
