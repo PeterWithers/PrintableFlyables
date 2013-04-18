@@ -81,7 +81,8 @@ aerofoilData = [[1.000000,0.001356],
 [0.990700,-0.001745],
 [0.997540,-0.001453],
 [1.000000,-0.001348]];
-strutIndexes = [[5, 70], [70, 10], [10, 65], [65,15], [15, 60], [60,20], [20, 55], [55,25], [25, 50], [50,30], [30,45], [35, 45], [35, 40]];
+strutIndexesA = [[5, 70], [70, 10], [10, 65], [65,15], [15, 60], [60,20], [20, 55], [55,25], [25, 50], [50,30], [30,45], [35, 45], [35, 40]];
+strutIndexesB = [[73,8],[8, 68], [68, 13], [13, 63], [63,18], [18, 58], [58,23], [23, 53], [53,28], [28, 48], [48,33], [33,43], [33, 43]];
 ribHoles = [[0.05,0.005,0.025],[0.15,0.02,0.035],[0.27,0.025,0.04],[0.39,0.025,0.037],[0.51,0.025,0.03],[0.61,0.025,0.025],[0.71,0.020,0.02],[0.81,0.015,0.015]];
 module makeFoilPoints(chordLength, padding){
 	for (vertex = aerofoilData){
@@ -95,7 +96,7 @@ module makeOuter(chordLength){
 		hull() makeFoilPoints(chordLength, 0.1);
 	}
 }
-module makeStruts(chordLength, spanLength, filetSize){
+module makeStruts(chordLength, spanLength, filetSize, strutIndexes){
 		intersection() {
 			hull() makeFoilPoints(chordLength, 0.6);
 			for (strut = strutIndexes){
@@ -114,17 +115,21 @@ module makeStruts(chordLength, spanLength, filetSize){
 
 module makeStrutsWithHoles(chordLength, spanLength, filetSize){
 	difference(){
-		linear_extrude(height = spanLength) makeStruts(chordLength, spanLength, filetSize);
+		linear_extrude(height = spanLength) makeStruts(chordLength, spanLength, filetSize, strutIndexesA);
 		for (holePos = [0:5:spanLength]) translate([0, 0,holePos])
 		rotate(a=[0,90,1.5]) cylinder(h = chordLength, r = 2, center = false);
 	}
 }
 
 module makeStrutsWithLayers(chordLength, spanLength, filetSize){
-	for (ribPos = [0:9:spanLength]) translate([0, 0, ribPos])
-		linear_extrude(height = 1) makeStruts(chordLength, spanLength, filetSize);
+	spacing = 2;
+	for (ribPos = [0:spacing:spanLength]) translate([0, 0, ribPos])
+		if (ribPos/spacing%2 == 1)
+			linear_extrude(height = spacing) makeStruts(chordLength, spanLength, filetSize, strutIndexesA);
+		else
+			linear_extrude(height = spacing) makeStruts(chordLength, spanLength, filetSize, strutIndexesB);
 //	intersection(){
-//		linear_extrude(height = spanLength) makeStruts(chordLength, spanLength, filetSize);
+//		linear_extrude(height = spanLength) makeStruts(chordLength, spanLength, filetSize, strutIndexesA);
 		//for (ribPos = [0:10:spanLength]) translate([-5, -chordLength/2, ribPos]) cube([chordLength+10,chordLength,2]);
 //	}
 }
@@ -140,13 +145,13 @@ module makeRibs(chordLength, spanLength){
 				}
 			}
 			for (ribPos = [0:10:spanLength]) translate([-5, -chordLength/2, ribPos]) cube([chordLength+10,chordLength,0.5]);
-//		linear_extrude(height = spanLength) makeStruts(chordLength, spanLength, filetSize);
+//		linear_extrude(height = spanLength) makeStruts(chordLength, spanLength, filetSize, strutIndexesA);
 	}
 }
 module makeAeroFoil(chordLength, spanLength){
 	union(){
-		%linear_extrude(height = spanLength) makeOuter(chordLength);
-		//makeStruts(chordLength, spanLength, 0.6);
+		linear_extrude(height = spanLength) makeOuter(chordLength);
+		//makeStruts(chordLength, spanLength, 0.6, strutIndexesA);
 		//makeStrutsWithHoles(chordLength, spanLength, 0.6);
 		makeStrutsWithLayers(chordLength, spanLength, 0.4);
 	}
