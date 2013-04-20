@@ -137,4 +137,23 @@ module makeAeroFoil(chordLength, spanLength){
 		//makeStrutsWithLayers(chordLength, spanLength, 0.4);
 	}
 }
-rotate([0,0,90])translate([-40, 0,0]) makeAeroFoil(100, 1);
+module makeAerofoilFrame(chordLength, spanLength){
+	spacing = (spanLength-0.4)/5;
+	difference(){
+		union(){
+			translate([0, 4.5,0]) rotate([0,0,-2.4]) 
+				for (ribPos = [0:spacing:spanLength]) translate([0, 0, ribPos]){
+				linear_extrude(height = 0.4) 
+				hull() makeFoilPoints(chordLength, 0.1);
+			}
+			translate([chordLength-5,0,0]) cube([5,1,spanLength]);
+			translate([(chordLength/2),0,0]) cube([5,1,spanLength]);
+			translate([4,0,0]) cube([5,1,spanLength]);
+		}
+		translate([0, 4.5,0]) rotate([0,0,-2.4]) for (holePos = ribHoles)translate([holePos[0]*chordLength,holePos[1]*chordLength,spanLength/2])
+//		for (holePos = [0 : 5] ) translate([chordLength/5*holePos,5,spanLength/2])
+			cylinder(h = spanLength+10, r=1.5, center = true);
+	}
+}
+//rotate([0,0,90])translate([-40, 0,0]) makeAeroFoil(100, 1);
+rotate([0,0,90])translate([-40, 0,0]) makeAerofoilFrame(100, 100);
