@@ -156,4 +156,4 @@ module makeAerofoilFrame(chordLength, spanLength){
 	}
 }
 //rotate([0,0,90])translate([-40, 0,0]) makeAeroFoil(100, 1);
-rotate([0,0,90])translate([-40, 0,0]) makeAerofoilFrame(100, 100);
+rotate([90,0,90])translate([-40, 0,0]) makeAerofoilFrame(110, 95);
