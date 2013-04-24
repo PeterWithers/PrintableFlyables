@@ -96,6 +96,26 @@ module makeOuter(chordLength, wallThickness){
 		hull() makeFoilPoints(chordLength, 0.1);
 	}
 }
+module makeSkewerHoles(chordLength, spanLength, skewerSize, wallThickness, strutIndexes){
+		intersection() {
+			hull() makeFoilPoints(chordLength, 0.6);
+			for (strut = strutIndexes){
+				// make the skewer holes
+				//translate([aerofoilData[strut[0]][0]*chordLength, aerofoilData[strut[0]][1]*chordLength, 0]) scale([1/10, 1/10, 1/10]) 
+				//difference(){
+				//	circle(r=(skewerSize+wallThickness)*10, center=true);
+				//	circle(r=skewerSize*10, center=true);
+				//}
+				// do the other pair so that the first and last filet are made even though this doubles up a few
+				translate([aerofoilData[strut[1]][0]*chordLength, aerofoilData[strut[1]][1]*chordLength, 0]) scale([1/10, 1/10, 1/10]) 
+				difference(){
+					circle(r=(skewerSize+wallThickness)*10, center=true);
+					circle(r=skewerSize*10, center=true);
+				}
+			}
+		}
+}
+
 module makeStruts(chordLength, spanLength, filetSize, wallThickness, strutIndexes){
 		intersection() {
 			hull() makeFoilPoints(chordLength, 0.6);
@@ -132,6 +152,7 @@ module makeAeroFoil(chordLength, spanLength){
 		makeOuter(chordLength, 0.8);
 		makeStruts(chordLength, spanLength, 0, 0.4, strutIndexesA);
 		//makeStruts(chordLength, spanLength, 0, 0.4, strutIndexesB);
+		makeSkewerHoles(chordLength, spanLength, 1.5, 0.4, strutIndexesB);
 		}
 		//makeStrutsWithHoles(chordLength, spanLength, 0.6);
 		//makeStrutsWithLayers(chordLength, spanLength, 0.4);
@@ -155,5 +176,5 @@ module makeAerofoilFrame(chordLength, spanLength){
 			cylinder(h = spanLength+10, r=1.5, center = true);
 	}
 }
-//rotate([0,0,90])translate([-40, 0,0]) makeAeroFoil(100, 1);
-rotate([90,0,90])translate([-40, 0,0]) makeAerofoilFrame(110, 95);
+rotate([0,0,90])translate([-40, 0,0]) makeAeroFoil(100, 1);
+//rotate([90,0,90])translate([-40, 0,0]) makeAerofoilFrame(110, 95);
