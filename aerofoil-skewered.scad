@@ -122,8 +122,8 @@ module makeStruts(chordLength, spanLength, filetSize, wallThickness, strutIndexe
 			for (strut = strutIndexes){
 				// make the struts
 				hull(){
-					translate([aerofoilData[strut[0]][0]*chordLength, aerofoilData[strut[0]][1]*chordLength, 0]) circle(r=0.5/2, center=true);
-					translate([aerofoilData[strut[1]][0]*chordLength, aerofoilData[strut[1]][1]*chordLength, 0]) circle(r=0.5/2, center=true);
+					translate([aerofoilData[strut[0]][0]*chordLength, aerofoilData[strut[0]][1]*chordLength, 0]) circle(r=wallThickness/2, center=true);
+					translate([aerofoilData[strut[1]][0]*chordLength, aerofoilData[strut[1]][1]*chordLength, 0]) circle(r=wallThickness/2, center=true);
 				}
 				// make the fillets
 				translate([aerofoilData[strut[0]][0]*chordLength, aerofoilData[strut[0]][1]*chordLength, 0]) scale([1/10, 1/10, 1/10]) circle(r=filetSize*10, center=true);
@@ -147,12 +147,13 @@ module makeStrutsWithLayers(chordLength, spanLength, filetSize){
 }
 
 module makeAeroFoil(chordLength, spanLength){
+	wallThickness = 1.5;
 	union(){
 		linear_extrude(height = spanLength) {
-		makeOuter(chordLength, 0.8);
-		makeStruts(chordLength, spanLength, 0, 0.4, strutIndexesA);
+		makeOuter(chordLength, wallThickness);
+		makeStruts(chordLength, spanLength, 1, wallThickness, strutIndexesA);
 		//makeStruts(chordLength, spanLength, 0, 0.4, strutIndexesB);
-		makeSkewerHoles(chordLength, spanLength, 1.5, 0.4, strutIndexesB);
+		makeSkewerHoles(chordLength, spanLength, 2.5, wallThickness, strutIndexesB);
 		}
 		//makeStrutsWithHoles(chordLength, spanLength, 0.6);
 		//makeStrutsWithLayers(chordLength, spanLength, 0.4);
@@ -176,5 +177,5 @@ module makeAerofoilFrame(chordLength, spanLength){
 			cylinder(h = spanLength+10, r=1.5, center = true);
 	}
 }
-rotate([0,0,90])translate([-40, 0,0]) makeAeroFoil(100, 1);
+rotate([0,0,90])translate([-40, 0,0]) makeAeroFoil(120, 1.5);
 //rotate([90,0,90])translate([-40, 0,0]) makeAerofoilFrame(110, 95);
