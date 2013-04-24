@@ -138,17 +138,17 @@ module makeAeroFoil(chordLength, spanLength){
 	}
 }
 module makeAerofoilFrame(chordLength, spanLength){
-	spacing = (spanLength-0.4)/5;
+	spacing = (spanLength-0.5)/5;
 	difference(){
 		union(){
 			translate([0, 4.5,0]) rotate([0,0,-2.4]) 
 				for (ribPos = [0:spacing:spanLength]) translate([0, 0, ribPos]){
-				linear_extrude(height = 0.4) 
+				linear_extrude(height = 0.5) 
 				hull() makeFoilPoints(chordLength, 0.1);
 			}
-			translate([chordLength-5,0,0]) cube([5,1,spanLength]);
-			translate([(chordLength/2),0,0]) cube([5,1,spanLength]);
-			translate([4,0,0]) cube([5,1,spanLength]);
+			translate([chordLength-5,-0.3,0]) cube([5,0.5,spanLength]);
+			translate([(chordLength/2),-0.3,0]) cube([0.5,5,spanLength]);
+			translate([4,-0.3,0]) cube([0.5,5,spanLength]);
 		}
 		translate([0, 4.5,0]) rotate([0,0,-2.4]) for (holePos = ribHoles)translate([holePos[0]*chordLength,holePos[1]*chordLength,spanLength/2])
 //		for (holePos = [0 : 5] ) translate([chordLength/5*holePos,5,spanLength/2])
