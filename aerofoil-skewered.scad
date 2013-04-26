@@ -146,8 +146,7 @@ module makeStrutsWithLayers(chordLength, spanLength, filetSize){
 //	}
 }
 
-module makeAeroFoil(chordLength, spanLength){
-	wallThickness = 1.5;
+module makeAeroFoil(chordLength, spanLength, wallThickness){
 	union(){
 		linear_extrude(height = spanLength) {
 		makeOuter(chordLength, wallThickness);
@@ -168,5 +167,9 @@ module makeAerofoilPlate(chordLength, plateThickness, skewerSize){
 			cylinder(h = plateThickness*3, r=skewerSize/2, center = true);
 	}
 }
-//rotate([0,0,90])translate([-40, 0,0]) makeAeroFoil(120, 1.6);
-rotate([0,0,90])translate([-40, 0,0]) makeAerofoilPlate(120, 0.5, 3.2);
+// 1.8 has fill between
+rotate([0,0,90])translate([-40, -20,0]) makeAeroFoil(120, 0.6, 0.6);
+rotate([0,0,90])translate([-40, 0,0]) makeAeroFoil(120, 0.6, 0.8);
+rotate([0,0,90])translate([-40, 20,0]) makeAeroFoil(120, 0.6, 1.0);
+rotate([0,0,90])translate([-40, 40,0]) makeAeroFoil(120, 0.6, 1.2);
+//rotate([0,0,90])translate([-40, 0,0]) makeAerofoilPlate(120, 0.5, 3.2);
