@@ -168,8 +168,8 @@ module makeAerofoilPlate(chordLength, plateThickness, skewerSize){
 	}
 }
 // 1.8 has fill between while 1.2 has a single line.
-rotate([0,0,90])translate([-40,-20,0]) makeAeroFoil(120, 1.0, 1.2, 2.5);
-rotate([0,0,90])translate([-40,   0,0]) makeAeroFoil(120, 1.0, 1.2, 2.6);
-rotate([0,0,90])translate([-40, 20,0]) makeAeroFoil(120, 1.0, 1.2, 2.7);
-rotate([0,0,90])translate([-40, 40,0]) makeAeroFoil(120, 1.0, 1.2, 2.8);
+rotate([0,0,90])translate([-40,-20,0]) makeAeroFoil(120, 2.0, 1.2, 2.8);
+rotate([0,0,90])translate([-40,   0,0]) makeAeroFoil(120, 2.0, 1.2, 2.8);
+rotate([0,0,90])translate([-40, 20,0]) makeAeroFoil(120, 2.0, 1.2, 2.8);
+rotate([0,0,90])translate([-40, 40,0]) makeAeroFoil(120, 2.0, 1.2, 2.8);
 //rotate([0,0,90])translate([-40, 0,0]) makeAerofoilPlate(120, 0.5, 3.2);
