@@ -167,9 +167,9 @@ module makeAerofoilPlate(chordLength, plateThickness, skewerSize){
 			cylinder(h = plateThickness*3, r=skewerSize/2, center = true);
 	}
 }
-// 1.8 has fill between
-rotate([0,0,90])translate([-40, -20,0]) makeAeroFoil(120, 0.6, 0.6);
-rotate([0,0,90])translate([-40, 0,0]) makeAeroFoil(120, 0.6, 0.8);
-rotate([0,0,90])translate([-40, 20,0]) makeAeroFoil(120, 0.6, 1.0);
-rotate([0,0,90])translate([-40, 40,0]) makeAeroFoil(120, 0.6, 1.2);
+// 1.8 has fill between while 1.2 has a single line.
+rotate([0,0,90])translate([-40, -20,0]) makeAeroFoil(120, 0.6, 1.1);
+rotate([0,0,90])translate([-40, 0,0]) makeAeroFoil(120, 0.6, 1.15);
+rotate([0,0,90])translate([-40, 20,0]) makeAeroFoil(120, 0.6, 1.2);
+rotate([0,0,90])translate([-40, 40,0]) makeAeroFoil(120, 0.6, 1.25);
 //rotate([0,0,90])translate([-40, 0,0]) makeAerofoilPlate(120, 0.5, 3.2);
