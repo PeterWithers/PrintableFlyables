@@ -146,13 +146,13 @@ module makeStrutsWithLayers(chordLength, spanLength, filetSize){
 //	}
 }
 
-module makeAeroFoil(chordLength, spanLength, wallThickness){
+module makeAeroFoil(chordLength, spanLength, wallThickness, skewerSize){
 	union(){
 		linear_extrude(height = spanLength) {
 		makeOuter(chordLength, wallThickness);
 		makeStruts(chordLength, spanLength, 1, wallThickness, strutIndexesA);
 		//makeStruts(chordLength, spanLength, 0, 0.4, strutIndexesB);
-		makeSkewerHoles(chordLength, spanLength, 2.5, wallThickness, strutIndexesB);
+		makeSkewerHoles(chordLength, spanLength, skewerSize, wallThickness, strutIndexesB);
 		}
 		//makeStrutsWithHoles(chordLength, spanLength, 0.6);
 		//makeStrutsWithLayers(chordLength, spanLength, 0.4);
@@ -168,8 +168,8 @@ module makeAerofoilPlate(chordLength, plateThickness, skewerSize){
 	}
 }
 // 1.8 has fill between while 1.2 has a single line.
-rotate([0,0,90])translate([-40, -20,0]) makeAeroFoil(120, 0.6, 1.1);
-rotate([0,0,90])translate([-40, 0,0]) makeAeroFoil(120, 0.6, 1.15);
-rotate([0,0,90])translate([-40, 20,0]) makeAeroFoil(120, 0.6, 1.2);
-rotate([0,0,90])translate([-40, 40,0]) makeAeroFoil(120, 0.6, 1.25);
+rotate([0,0,90])translate([-40,-20,0]) makeAeroFoil(120, 1.0, 1.2, 2.5);
+rotate([0,0,90])translate([-40,   0,0]) makeAeroFoil(120, 1.0, 1.2, 2.6);
+rotate([0,0,90])translate([-40, 20,0]) makeAeroFoil(120, 1.0, 1.2, 2.7);
+rotate([0,0,90])translate([-40, 40,0]) makeAeroFoil(120, 1.0, 1.2, 2.8);
 //rotate([0,0,90])translate([-40, 0,0]) makeAerofoilPlate(120, 0.5, 3.2);
