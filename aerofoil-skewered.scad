@@ -96,6 +96,13 @@ module makeOuter(chordLength, wallThickness){
 		hull() makeFoilPoints(chordLength, 0.1);
 	}
 }
+module makeSkewers(chordLength, skewerLength, skewerSize, skewerIndexes){
+	strutIndexes = strutIndexesB;
+			for (index = skewerIndexes){
+				translate([aerofoilData[strutIndexes[index][1]][0]*chordLength, aerofoilData[strutIndexes[index][1]][1]*chordLength, skewerLength/2]) cylinder(r=skewerSize, h=skewerLength, center=true);
+			}
+
+}
 module makeSkewerHoles(chordLength, spanLength, skewerSize, wallThickness, strutIndexes){
 		intersection() {
 			hull() makeFoilPoints(chordLength, 0.6);
@@ -167,6 +174,7 @@ module makeAerofoilPlate(chordLength, plateThickness, skewerSize){
 			cylinder(h = plateThickness*3, r=skewerSize/2, center = true);
 	}
 }
+rotate([0,0,90])translate([-40,-20,0]) makeSkewers(120, 150, 1.2, [1,4,7,	10]);
 // 1.8 has fill between while 1.2 has a single line.
 rotate([0,0,90])translate([-40,-20,0]) makeAeroFoil(120, 2.0, 1.2, 2.8);
 rotate([0,0,90])translate([-40,   0,0]) makeAeroFoil(120, 2.0, 1.2, 2.8);

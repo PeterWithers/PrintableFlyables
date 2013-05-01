@@ -1,3 +1,6 @@
+// Copyright 2013 Peter Withers
+// Licensed as GPL 2
+
 use <aerofoil-skewered.scad>;
 use <hardware.scad>;
 
