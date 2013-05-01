@@ -1,10 +1,12 @@
 
 module aileronCard(chordLength, strutSpacing,strutsPerWing, aileronLength, aileronChord, aileronAngle, overlap){
 spanLength = strutSpacing*strutsPerWing;
-union(){
-	translate([aileronLength,0,0]) cube([spanLength-aileronLength, aileronChord+overlap, 1]);
-	cube([spanLength, overlap, 1]);
+translate([chordLength-overlap,-spanLength,0]){
+	union(){
+		translate([0,aileronLength,0]) cube([aileronChord+overlap,spanLength-aileronLength,1]);
+		cube([overlap, spanLength, 1]);
 }
-translate([0,overlap,0]) rotate([aileronAngle,0,0]) cube([aileronLength, aileronChord, 1]);
+	translate([overlap,0,0]) rotate([0,aileronAngle,0]) cube([aileronChord, aileronLength, 1]);
+	}
 }
 aileronCard(120, 40, 8, 120, 20, 10, 10);
