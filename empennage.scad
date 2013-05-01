@@ -8,23 +8,33 @@ module empennageCard(height, span, chord, elevatorChord){
 	elevator(height, span, chord,elevatorChord);
 }
 
-module empennageStruts(height, span, chord){
+module empennageStruts(height, span, chord, elevatorChord){
 	horizontalStabiliser(height, span, chord);
 	verticalStabiliser(height, span, chord);
-	translate([0,-span,0])horizontalStabiliser(height, span, chord);
+	scale([1,-1,1])translate([0,0,0])horizontalStabiliser(height, span, chord);
+	elevator(height, span, chord,elevatorChord);
 }
 
 module verticalStabiliser(height, span, chord){
-	cube([chord,1,height]);
+	rotate([90,0,0]) hull() {
+		translate([chord-10,height-10,0]) circle(10);
+		translate([1,1,0])circle(1, center=true);
+		translate([chord-1,1,0])circle(1, center=true);
+ 	}
 }
 
 module horizontalStabiliser(height, span, chord){
-	cube([chord,span,1]);
+	hull() {
+		translate([chord-10,span-10,0]) circle(10);
+		translate([1,1,0])circle(1, center=true);
+		translate([chord-1,1,10])circle(1, center=true);
+ 	}
 }
 
 module elevator(height, span, chord, elevatorChord){
-	translate([chord+1,-span,0]) cube([elevatorChord,span*2,1]);
+	translate([chord+1,10-span,0]) cube([elevatorChord,span*2-20,1]);
 }
 
-empennageCard(20, 30, 25, 10);
-//empennageStruts(20, 30, 25, 10);
+//empennageCard(20, 30, 25, 10);
+empennageStruts(20, 30, 25, 10);
+//empennageStruts(40, 80, 50, 10);
