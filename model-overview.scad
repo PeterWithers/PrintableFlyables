@@ -4,11 +4,14 @@
 use <aerofoil-skewered.scad>;
 use <hardware.scad>;
 use <ailerons.scad>;
+use <empennage.scad>;
 
 chordLength = 120;
 chordExtenderLength = 20;
 strutSpacing = 40;
 strutsPerWing = 8;
+
+fuselageLength = 300;
 module wing(innerIndexes, outerIndexes){
 	rotate([90,0,0])translate([0,0,0]) makeSkewers(chordLength, 210, 1.2, outerIndexes);
 	rotate([90,0,0])translate([0,0,strutSpacing*4]) makeSkewers(chordLength, 210, 1.2, innerIndexes);
@@ -32,3 +35,4 @@ translate([30,0,0]) servoMotor();
 //translate([0,140,0]) lipo1000();
 
 //translate([0,180,0]) lipo610();
+translate([fuselageLength,0,0]) empennage(40, 80, 50);
