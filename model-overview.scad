@@ -35,4 +35,4 @@ translate([30,0,0]) servoMotor();
 //translate([0,140,0]) lipo1000();
 
 //translate([0,180,0]) lipo610();
-translate([fuselageLength,0,0]) empennage(40, 80, 50);
+translate([fuselageLength,0,0]) empennageCard(40, 80, 50, 10);
