@@ -16,10 +16,9 @@ strutSpacing = 50;
 strutsPerWing = 8;
 wingspan = strutSpacing*strutsPerWing*2;
 aileronLength = wingspan/4;
-preferedFuselageLength = wingspan * 0.75;
-fuselageLength = chordLength*4.5;
-fuselageRadius = fuselageLength*0.15/2;
-echo("preferedFuselageLength: ",preferedFuselageLength);
+fuselageLength = wingspan * 0.75;
+//fuselageLength = chordLength*4.5;
+fuselageRadius = fuselageLength*0.1/2;
 echo("fuselageLength: ",fuselageLength);
 
 module wing(innerIndexes, outerIndexes){
@@ -52,4 +51,4 @@ translate([30,0,0]) servoMotor();
 
 //translate([0,180,0]) lipo610();
 translate([fuselageLength-chordLength,0,-fuselageRadius]) empennageStruts(chordLength, chordLength, chordLength, 10);
-fuselageBlock(chordLength, wingspan,fuselageRadius);
+fuselageBlock(chordLength, wingspan, fuselageRadius, fuselageLength);
