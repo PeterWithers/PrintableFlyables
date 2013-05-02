@@ -11,11 +11,15 @@ module empennageCard(height, span, chord, elevatorChord){
 }
 
 module empennageStruts(height, span, chord, elevatorChord){
-    translate([-chord,0,0]){
-	horizontalStabiliser(height, span, chord);
-	verticalStabiliser(height, span, chord);
-	scale([1,-1,1])translate([0,0,0])horizontalStabiliser(height, span, chord);
-	elevator(height, span, chord,elevatorChord);
+// because we are making a triangles while we calculated the area as a square we will increase the height and chord each by 33%
+    heightCorrected=height*1.33;
+    spanCorrected=span*1.33;
+    chordCorrected=chord*1.33;
+    translate([-chordCorrected,0,0]){
+	horizontalStabiliser(heightCorrected, spanCorrected, chordCorrected);
+	verticalStabiliser(heightCorrected, spanCorrected, chordCorrected);
+	scale([1,-1,1])translate([0,0,0])horizontalStabiliser(heightCorrected, spanCorrected, chordCorrected);
+	elevator(height, span, chordCorrected,elevatorChord);
     }
 }
 
