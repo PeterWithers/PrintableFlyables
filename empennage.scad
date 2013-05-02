@@ -2,17 +2,21 @@
 // Licensed as GPL 2
 
 module empennageCard(height, span, chord, elevatorChord){
-	cube([chord,span,1]);
+    translate([-chord,0,0]){
+        cube([chord,span,1]);
 	cube([chord,1,height]);
 	translate([0,-span,0])cube([chord,span,1]);
 	elevator(height, span, chord,elevatorChord);
+    }
 }
 
 module empennageStruts(height, span, chord, elevatorChord){
+    translate([-chord,0,0]){
 	horizontalStabiliser(height, span, chord);
 	verticalStabiliser(height, span, chord);
 	scale([1,-1,1])translate([0,0,0])horizontalStabiliser(height, span, chord);
 	elevator(height, span, chord,elevatorChord);
+    }
 }
 
 module verticalStabiliser(height, span, chord){
