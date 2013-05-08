@@ -26,6 +26,9 @@ module fuselageRib(ribRadius, ribThickness, wallThickness, holeCount){
         cylinder(r=ribRadius, h=ribThickness);
         translate([0,0,-wallThickness]) cylinder(r=ribRadius-wallThickness, h=ribThickness*3);
     }
+    for (rotation=[1:5]){
+        rotate([0,0,(360/5)*rotation]) cube([wallThickness,ribRadius,wallThickness], center=false);
+    }
 }
 
 fuselage(160, 640);
