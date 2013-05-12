@@ -8,7 +8,7 @@ module fuselageBlock(chordLength, wingspan, fuselageRadius, fuselageLength){
 module makeRibs(startRadius, endRadius, sectionLength){
     ribSpacing = 40;
     ribThickness = 2;
-    skewerRadius = 2.8/2;
+    skewerRadius = 2.0; // 2.8/2;
     wallThickness = 2;
     numberOfRibs = sectionLength/ribSpacing;
     echo(ribSpacing);
@@ -62,9 +62,33 @@ module noseCone(coneLength, motorRadius, boltDiameter, boltDistance, wallThickne
 
 //fuselage(160, 640);
 
+module printPlate01(){
+    translate([00,45,0]) fuselageRib(15,2,1,6,2.0);
+    translate([50,-5,0]) fuselageRib(18.75,2,1,6,2.0);
+    translate([40,40,0]) fuselageRib(22.5,2,1,6,2.0);
+    translate([00,00,0]) fuselageRib(26.25,2,1,6,2.0);
+}
 
-translate([00,45,0]) fuselageRib(15,2,1,6,1.4);
-translate([50,-5,0]) fuselageRib(18.75,2,1,6,1.4);
-translate([40,40,0]) fuselageRib(22.5,2,1,6,1.4);
-translate([00,00,0]) fuselageRib(26.25,2,1,6,1.4);
-//fuselageRib(30,2,1,6,1.4);
+module printPlate02(){
+    translate([00,45,0]) fuselageRib(7.5,2,1,6,2.0);
+    translate([50,-5,0]) fuselageRib(10.7143,2,1,6,2.0);
+    translate([40,40,0]) fuselageRib(13.9286,2,1,6,2.0);
+    translate([00,00,0]) fuselageRib(17.1429,2,1,6,2.0);
+}
+
+module printPlate03(){
+    translate([00,45,0]) fuselageRib(20.3571,2,1,6,2.0);
+    translate([40,0,0]) fuselageRib(23.5714,2,1,6,2.0);
+    translate([20,40,0]) fuselageRib(26.7857,2,1,6,2.0);
+}
+//%cube(100);
+printPlate01();
+//printPlate02();
+//printPlate03();
+/*
+ECHO: "fuselageRib(30,2,1,6,2)"
+ECHO: "fuselageRib(30,2,1,6,2)"
+ECHO: "fuselageRib(30,2,1,6,2)"
+ECHO: "fuselageRib(30,2,1,6,2)"
+ECHO: "fuselageRib(30,2,1,6,2)"
+*/
