@@ -47,6 +47,7 @@ module fuselageRib(ribRadius, ribThickness, wallThickness, holeCount, skewerRadi
 }
 
 module noseCone(coneLength, motorRadius, boltDiameter, boltDistance, wallThickness, holeCount, skewerRadius){
+    echo(str("noseCone(", coneLength, motorRadius, boltDiameter, boltDistance, wallThickness, holeCount, skewerRadius, ");"));
     ribRadius = motorRadius;
     capHeight = 3;
     union(){
@@ -77,14 +78,21 @@ module printPlate02(){
 }
 
 module printPlate03(){
-    translate([00,45,0]) fuselageRib(20.3571,2,1,6,2.0);
-    translate([40,0,0]) fuselageRib(23.5714,2,1,6,2.0);
-    translate([20,40,0]) fuselageRib(26.7857,2,1,6,2.0);
+    translate([100-21,21,0]) fuselageRib(20.3571,2,1,6,2.0);
+    translate([100-24-10,21*2+24,0]) fuselageRib(23.5714,2,1,6,2.0);
+    translate([27,27,0]) fuselageRib(26.7857,2,1,6,2.0);
 }
+
+module printPlate04(){
+    translate([30,30,0]) fuselageRib(30,2,1,6,2.0);
+    //translate([100-30,100-30,0]) fuselageRib(30,2,1,6,2.0);
+}
+
 //%cube(100);
-printPlate01();
+//printPlate01();
 //printPlate02();
 //printPlate03();
+printPlate04();
 /*
 ECHO: "fuselageRib(30,2,1,6,2)"
 ECHO: "fuselageRib(30,2,1,6,2)"
