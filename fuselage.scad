@@ -67,7 +67,7 @@ module fuselageRib(ribRadius, ribThickness, wallThickness, loopCount, skewerRadi
 }
 
 module noseCone(){
-    echo(str("noseCone(", noseConeLength, motorRadius, boltDiameter, boltDistance, wallThickness, loopCount, skewerRadius, ");"));
+    echo(str("noseCone(", noseConeLength, ",", motorRadius, ",", boltDiameter, ",", boltDistance, ",", wallThickness, ",", loopCount, ",", skewerRadius, ");"));
     ribRadius = motorRadius;
     difference(){
         union(){
