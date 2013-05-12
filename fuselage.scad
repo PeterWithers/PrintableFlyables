@@ -1,4 +1,16 @@
 
+noseConeLength = 10;
+noseConeCapHeight = 3;
+motorRadius = 20;
+boltDiameter = 1.6;
+boltCapDiameter = 2.5;
+boltDistance = 9;
+wallThickness = 2;
+loopCount=4;
+ribSpacing = 40;
+ribThickness = 2;
+skewerRadius = 2.0; // 2.8/2;
+
 module fuselageBlock(chordLength, wingspan, fuselageRadius, fuselageLength){
     translate([-chordLength,0,-fuselageRadius]) rotate([0,90,0]) makeRibs(fuselageRadius/2, fuselageRadius, chordLength);
     translate([0,0,-fuselageRadius]) rotate([0,90,0]) makeRibs(fuselageRadius, fuselageRadius, chordLength);
@@ -7,10 +19,6 @@ module fuselageBlock(chordLength, wingspan, fuselageRadius, fuselageLength){
 
 module makeRibs(startRadius, endRadius, sectionLength){
     echo(str("sectionLength: ",sectionLength));
-    ribSpacing = 40;
-    ribThickness = 2;
-    skewerRadius = 2.0; // 2.8/2;
-    wallThickness = 2;
     numberOfRibs = sectionLength/ribSpacing;
     echo(str("ribSpacing: ", ribSpacing));
     echo(str("numberOfRibs: ",numberOfRibs));
@@ -24,8 +32,8 @@ module makeRibs(startRadius, endRadius, sectionLength){
     }
 }
 
-module fuselageRib(ribRadius, ribThickness, wallThickness, holeCount, skewerRadius, doubleLoops){
-    echo(str("fuselageRib(", ribRadius, ",", ribThickness, ",", wallThickness, ",", holeCount, ",", skewerRadius,",",doubleLoops, ")"));
+module fuselageRib(ribRadius, ribThickness, wallThickness, loopCount, skewerRadius, doubleLoops){
+    echo(str("fuselageRib(", ribRadius, ",", ribThickness, ",", wallThickness, ",", loopCount, ",", skewerRadius,",",doubleLoops, ")"));
     union(){
         difference(){
             cylinder(r=ribRadius, h=ribThickness, center=true);
@@ -58,22 +66,30 @@ module fuselageRib(ribRadius, ribThickness, wallThickness, holeCount, skewerRadi
     }
 }
 
-module noseCone(coneLength, motorRadius, boltDiameter, boltDistance, wallThickness, holeCount, skewerRadius){
-    echo(str("noseCone(", coneLength, motorRadius, boltDiameter, boltDistance, wallThickness, holeCount, skewerRadius, ");"));
+module noseCone(){
+    echo(str("noseCone(", noseConeLength, motorRadius, boltDiameter, boltDistance, wallThickness, loopCount, skewerRadius, ");"));
     ribRadius = motorRadius;
-    capHeight = 3;
-    union(){
-        difference(){
-            translate([0,0,capHeight/2])cylinder(h=capHeight, r=motorRadius, center=true);
-            for (rotation = [0,90,180,270]){
-                rotate([0,0,rotation])translate([boltDistance,0,0]) cylinder(h=coneLength, r=boltDiameter, center=true);
-            }
+    difference(){
+        union(){
+            translate([0,0,noseConeCapHeight/2])cylinder(h=noseConeCapHeight, r=motorRadius, center=true);
+            translate([0,0,noseConeLength/2+noseConeCapHeight/2])fuselageRib(motorRadius,noseConeLength, wallThickness, loopCount, skewerRadius, false);
         }
-        translate([0,0,coneLength/2+capHeight/2])fuselageRib(motorRadius,coneLength, wallThickness, holeCount, skewerRadius, false);
+        for (rotation = [0,90,180,270]){
+            // make a hole for the bolt head through the strut
+            rotate([0,0,rotation])translate([boltDistance,0,noseConeCapHeight+(boltCapDiameter/2)-0.8]) cylinder(h=boltCapDiameter, r=boltCapDiameter, center=true);
+            // make the bolt hole and the space for the bolt cap to be passed through
+            hull(){
+                rotate([0,0,rotation])translate([boltDistance,0,0]) cylinder(h=noseConeLength, r=boltDiameter, center=true);
+                rotate([0,0,rotation+15])translate([boltDistance,0,0]) cylinder(h=noseConeLength, r=boltDiameter, center=true);
+            }
+            hull(){
+                rotate([0,0,rotation+15])translate([boltDistance,0,0]) cylinder(h=noseConeLength, r=boltDiameter, center=true);
+                rotate([0,0,rotation+30])translate([boltDistance,0,0]) cylinder(h=noseConeLength, r=boltDiameter, center=true);
+            }
+            rotate([0,0,rotation+30])translate([boltDistance,0,0]) cylinder(h=noseConeLength, r=boltCapDiameter, center=true);
+        }
     }
 }
-
-//fuselage(160, 640);
 
 module printPlate01(){
     translate([00,45,0]) fuselageRib(15,2,1,6,2.0, true);
@@ -100,11 +116,14 @@ module printPlate04(){
     //translate([100-30,100-30,0]) fuselageRib(30,2,1,6,2.0, true);
 }
 
+//fuselage(160, 640);
+noseCone();
+
 //%cube(100);
 //printPlate01();
 //printPlate02();
 //printPlate03();
-printPlate04();
+//printPlate04();
 /*
 ECHO: "fuselageRib(30,2,1,6,2, true)"
 ECHO: "fuselageRib(30,2,1,6,2, true)"
