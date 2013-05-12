@@ -56,6 +56,7 @@ rotate([-dihedralAngle,0,0])translate([0,-wingspan/2,0]) scale([1,-1,1]) {
 
 // todo: should there be 2-3 degrees downward and 2-3 rightward angle on the motor?
 rotate([0,-90,0])translate([-fuselageRadius,0,chordLength]) propellerMotor();
+rotate([0,90,0])translate([fuselageRadius,0,-chordLength]) noseCone();
 echo("chord length: ",chordLength,"mm");
 echo("wing span: ",wingspan,"mm");
 echo("wingspan should be 5-6 times the chord: ", wingspan/chordLength);
