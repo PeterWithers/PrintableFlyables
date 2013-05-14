@@ -1,6 +1,6 @@
 
 noseConeLength = 10;
-noseConeCapHeight = 3;
+noseConeCapHeight = 1;
 motorRadius = 15;
 boltDiameter = 1.6;
 boltCapDiameter = 3;
@@ -75,17 +75,17 @@ module noseCone(){
         }
         for (rotation = [0,90,180,270]){
             // make a hole for the bolt head through the strut
-            rotate([0,0,rotation])translate([boltDistance,0,noseConeCapHeight+(boltCapDiameter/2)-0.8]) cylinder(h=boltCapDiameter, r=boltCapDiameter, center=true);
+            rotate([0,0,rotation])translate([boltDistance,0,noseConeCapHeight+(boltCapDiameter)-0.8]) cylinder(h=boltCapDiameter*2, r=boltCapDiameter, center=true);
             // make the bolt hole and the space for the bolt cap to be passed through
             hull(){
-                rotate([0,0,rotation])translate([boltDistance,0,0]) cylinder(h=noseConeLength, r=boltDiameter, center=true);
-                rotate([0,0,rotation+15])translate([boltDistance,0,0]) cylinder(h=noseConeLength, r=boltDiameter, center=true);
+                rotate([0,0,rotation])translate([boltDistance,0,0]) cylinder(h=noseConeCapHeight, r=boltDiameter, center=true);
+                rotate([0,0,rotation+15])translate([boltDistance,0,0]) cylinder(h=noseConeCapHeight, r=boltDiameter, center=true);
             }
             hull(){
-                rotate([0,0,rotation+15])translate([boltDistance,0,0]) cylinder(h=noseConeLength, r=boltDiameter, center=true);
-                rotate([0,0,rotation+30])translate([boltDistance,0,0]) cylinder(h=noseConeLength, r=boltDiameter, center=true);
+                rotate([0,0,rotation+15])translate([boltDistance,0,0]) cylinder(h=noseConeCapHeight, r=boltDiameter, center=true);
+                rotate([0,0,rotation+30])translate([boltDistance,0,0]) cylinder(h=noseConeCapHeight, r=boltDiameter, center=true);
             }
-            rotate([0,0,rotation+30])translate([boltDistance,0,0]) cylinder(h=noseConeLength, r=boltCapDiameter, center=true);
+            rotate([0,0,rotation+30])translate([boltDistance,0,0]) cylinder(h=boltCapDiameter*2, r=boltCapDiameter, center=true);
         }
     }
 }
