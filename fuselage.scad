@@ -1,13 +1,13 @@
 
 noseConeLength = 10;
-noseConeCapHeight = 2;
+noseConeCapHeight = 3;
 motorRadius = 15;
 motorShaftHoleRadius = 1.6;
 motorShaftHoleDepth = 6;
 boltDiameter = 1.6;
 boltCapDiameter = 3;
 boltCapHeight = 4;
-boldHeadIndentationDepth = 0.5;
+boldHeadIndentationDepth = 1.0;
 boltDistance = 9.5;
 wallThickness = 1;
 ribSpacing = 40;
@@ -94,8 +94,8 @@ module noseCone(){
 				// create a hole for the bolt head to pass through the platess
             rotate([0,0,rotation+30])translate([boltDistance,0,0]) cylinder(h=boltCapHeight*2+noseConeCapHeight*2, r=boltCapDiameter, center=true);
         }
-        // make a hole for the motor shaft
-        cylinder(h=motorShaftHoleDepth*2, r=motorShaftHoleRadius*2, center=true);
+		// make a hole for the motor shaft
+		cylinder(h=motorShaftHoleDepth*2, r=motorShaftHoleRadius*2, center=true);
     }
 }
 
