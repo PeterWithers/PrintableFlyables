@@ -14,6 +14,7 @@ aileronChord = chordRibLength / 3;
 chordLength = chordRibLength + aileronChord;
 strutSpacing = 50;
 strutsPerWing = 8;
+strutThickness = 2.0;
 wingspan = strutSpacing*strutsPerWing*2;
 wingArea = ((wingspan/100)*((chordLength)/100));
 aileronLength = wingspan/4;
@@ -42,16 +43,16 @@ module wing(innerIndexes, outerIndexes){
 	rotate([90,0,0])translate([0,0,strutSpacing*4]) makeSkewers(chordRibLength, 210, 1.2, innerIndexes);
 	for (strutCounter = [0:strutsPerWing-1]){
 		rotate([90,0,0])translate([0,0,strutCounter*strutSpacing])
-			makeAeroFoil(chordRibLength, 2.0, 1.2, 2.8);
+			makeAeroFoil(chordRibLength, strutThickness, 1.2, 2.8);
 	}
 }
 rotate([dihedralAngle,0,0])translate([0,wingspan/2,0]) {
 	wing([0,5,6,11],[1,4,7,10]);
-	translate([chordRibLength,0,0]) rotate([0,7,0]) aileronCard(chordLength, strutSpacing,strutsPerWing, aileronLength, aileronChord, 10, 10);
+	translate([chordRibLength,0,0]) rotate([0,7,0]) aileronCard(chordLength, strutSpacing,strutThickness,strutsPerWing, aileronLength, aileronChord, 10, 10);
 	}
 rotate([-dihedralAngle,0,0])translate([0,-wingspan/2,0]) scale([1,-1,1]) {
 	wing([1,4,7,10],[0,5,6,11]);
-	translate([chordRibLength,0,0]) rotate([0,7,0]) aileronCard(chordLength, strutSpacing,strutsPerWing, aileronLength, aileronChord, -10, 10);
+	translate([chordRibLength,0,0]) rotate([0,7,0]) aileronCard(chordLength, strutSpacing,strutThickness,strutsPerWing, aileronLength, aileronChord, -10, 10);
 }
 
 // todo: should there be 2-3 degrees downward and 2-3 rightward angle on the motor?
