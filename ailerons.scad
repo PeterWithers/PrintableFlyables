@@ -8,12 +8,14 @@ module aileronCard(chordLength, strutSpacing,strutThickness, strutsPerWing, aile
     //translate([chordLength-overlap,-spanLength,0]){
     translate([-overlap,-spanLength,0]){
         union(){
-            //cube([aileronChord+overlap,spanLength-aileronLength,1]);
-            aileronSection(chordLength, aileronChord+overlap, spanLength-aileronLength, aileronThickness,strutsPerWing);
-            //cube([overlap, spanLength, 1]);
-            aileronSection(chordLength, overlap, spanLength, aileronThickness,strutsPerWing);            
+            cube([aileronChord+overlap,spanLength-aileronLength,1]);
+            //aileronSection(chordLength, aileronChord+overlap, spanLength-aileronLength, aileronThickness,strutsPerWing);
+            cube([overlap, spanLength, 1]);
+            //aileronSection(chordLength, overlap, spanLength, aileronThickness,strutsPerWing);            
         }
-        translate([0,spanLength-aileronLength,0]) %translate([overlap,0,0]) rotate([0,aileronAngle,0]) aileronSection(chordLength, aileronChord, aileronLength, aileronThickness,strutsPerWing);
+        translate([0,spanLength-aileronLength,0]) %translate([overlap,0,0]) rotate([0,aileronAngle,0]) 
+            cube([aileronChord, aileronLength, 1]);
+            //aileronSection(chordLength, aileronChord, aileronLength, aileronThickness,strutsPerWing);
     }
 }
 module aileronSection(chordLength, aileronChord, aileronLength, aileronThickness,strutsPerWing){
