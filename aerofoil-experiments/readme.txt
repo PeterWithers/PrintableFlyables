@@ -1,0 +1,1 @@
+These files where used to test various printing and modeling methods to create usable aerofoils. Most of these had issues due to printer limitations and the desire to keep things very light. The skewered version was chosen as the favourite and then used in the papered version.
