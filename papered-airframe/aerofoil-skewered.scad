@@ -103,7 +103,15 @@ module makeSkewers(chordLength, skewerLength, skewerSize, skewerIndexes){
 			}
 
 }
-module makeSkewerHoles(chordLength, spanLength, skewerSize, wallThickness, strutIndexes){
+module makeSkewerHoles(chordLength, spanLength, skewerSize, wallThickness, strutIndex){
+    if (strutIndex==0){
+         makeSkewerHolesPrivate(chordLength, spanLength, skewerSize, wallThickness, strutIndexesA);
+    } else {
+        makeSkewerHolesPrivate(chordLength, spanLength, skewerSize, wallThickness, strutIndexesB);
+    }
+}
+
+module makeSkewerHolesPrivate(chordLength, spanLength, skewerSize, wallThickness, strutIndexes){
 		intersection() {
 			hull() makeFoilPoints(chordLength, 0.6);
 			for (strut = strutIndexes){
@@ -123,7 +131,15 @@ module makeSkewerHoles(chordLength, spanLength, skewerSize, wallThickness, strut
 		}
 }
 
-module makeStruts(chordLength, spanLength, filetSize, wallThickness, strutIndexes){
+module makeStruts(chordLength, spanLength, filetSize, wallThickness, strutIndex){
+    if (strutIndex==0){
+        makeStrutsPrivate(chordLength, spanLength, filetSize, wallThickness, strutIndexesA);
+    } else {
+        makeStrutsPrivate(chordLength, spanLength, filetSize, wallThickness, strutIndexesB);
+    }
+}
+
+module makeStrutsPrivate(chordLength, spanLength, filetSize, wallThickness, strutIndexes){
 		intersection() {
 			hull() makeFoilPoints(chordLength, 0.6);
 			for (strut = strutIndexes){
@@ -144,11 +160,11 @@ module makeStrutsWithLayers(chordLength, spanLength, filetSize){
 	spacing = 2;
 	for (ribPos = [0:spacing:spanLength]) translate([0, 0, ribPos])
 		if (ribPos/spacing%2 == 1)
-			linear_extrude(height = spacing) makeStruts(chordLength, spanLength, filetSize, strutIndexesA);
+			linear_extrude(height = spacing) makeStruts(chordLength, spanLength, filetSize, 0);
 		else
-			linear_extrude(height = spacing) makeStruts(chordLength, spanLength, filetSize, strutIndexesB);
+			linear_extrude(height = spacing) makeStruts(chordLength, spanLength, filetSize, 1);
 //	intersection(){
-//		linear_extrude(height = spanLength) makeStruts(chordLength, spanLength, filetSize, strutIndexesA);
+//		linear_extrude(height = spanLength) makeStruts(chordLength, spanLength, filetSize, 0);
 		//for (ribPos = [0:10:spanLength]) translate([-5, -chordLength/2, ribPos]) cube([chordLength+10,chordLength,2]);
 //	}
 }
@@ -157,9 +173,9 @@ module makeAeroFoil(chordLength, spanLength, wallThickness, skewerSize){
 	union(){
 		linear_extrude(height = spanLength) {
 		makeOuter(chordLength, wallThickness);
-		makeStruts(chordLength, spanLength, 1, wallThickness, strutIndexesA);
-		//makeStruts(chordLength, spanLength, 0, 0.4, strutIndexesB);
-		makeSkewerHoles(chordLength, spanLength, skewerSize, wallThickness, strutIndexesB);
+		makeStruts(chordLength, spanLength, 1, wallThickness, 0);
+		//makeStruts(chordLength, spanLength, 0, 0.4, 1);
+		makeSkewerHoles(chordLength, spanLength, skewerSize, wallThickness, 1);
 		}
 		//makeStrutsWithHoles(chordLength, spanLength, 0.6);
 		//makeStrutsWithLayers(chordLength, spanLength, 0.4);
@@ -174,7 +190,7 @@ module makeAerofoilPlate(chordLength, plateThickness, skewerSize){
 			cylinder(h = plateThickness*3, r=skewerSize/2, center = true);
 	}
 }
-rotate([0,0,90])translate([-40,-20,0]) makeSkewers(120, 150, 1.2, [1,4,7,	10]);
+//rotate([0,0,90])translate([-40,-20,0]) makeSkewers(120, 150, 1.2, [1,4,7,	10]);
 // 1.8 has fill between while 1.2 has a single line.
 rotate([0,0,90])translate([-40,-20,0]) makeAeroFoil(120, 2.0, 1.2, 2.8);
 rotate([0,0,90])translate([-40,   0,0]) makeAeroFoil(120, 2.0, 1.2, 2.8);
