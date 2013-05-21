@@ -33,13 +33,32 @@ module verticalStabiliser(height, span, chord){
  	}
 }
 
+module singleStrut(startX, startY, endX, endY){
+    hull() {
+        translate([startX,startY,0]) circle(2);
+        translate([endX,endY,0]) circle(2);
+    }
+}
+
 module horizontalStabiliser(height, span, chord){
 	echo(str("horizontalStabiliser(",height,",",span,",",chord,");"));
-	linear_extrude(height=1) hull() {
-		translate([chord-10,span-10,0]) circle(10);
-		translate([1,1,0])circle(1, center=true);
-		translate([chord-1,1,10])circle(1, center=true);
- 	}
+        linear_extrude(height=2){
+            // make the outer shape
+            singleStrut(0, 0, chord, 0);
+            singleStrut(0, 0, 0, span/2);
+            singleStrut(0, span/2, chord, span);
+            singleStrut(chord, span, chord, 0);
+            // make the inner triangles
+            singleStrut(0, span/2, chord, 0);
+            singleStrut(chord, span/2, 0, 0);
+            singleStrut(chord, span/2, 0, span/2);
+            singleStrut(chord, span/2, chord/2, span*0.75);
+            /*%hull(){
+            translate([chord-10,span-10,0]) circle(10);
+            translate([1,1,0])circle(1, center=true);
+            translate([chord-1,1,10])circle(1, center=true);
+            }*/
+        }
 }
 
 module elevator(height, span, chord, elevatorChord){
@@ -47,7 +66,7 @@ module elevator(height, span, chord, elevatorChord){
 	translate([chord+1,10-span,0]) cube([elevatorChord,span*2-20,1]);
 }
 
-horizontalStabiliser(112.8,169.2,112.8);
+horizontalStabiliser(100,100,90);
 //ECHO: "verticalStabiliser(112.8,169.2,112.8);"
 //ECHO: "horizontalStabiliser(112.8,169.2,112.8);"
 //ECHO: "elevator(80,120,112.8,20);"
