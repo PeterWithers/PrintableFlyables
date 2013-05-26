@@ -14,14 +14,26 @@ module simpleRim(wheelDiameter, tireWidth){
 	cylinder(h=rimThickness, r=wheelDiameter/2,center=true);
 }
 module wheel(axilDiameter, wheelDiameter, tireWidth){
-	difference(){
-		union(){
-			tire(wheelDiameter, tireWidth);
-			simpleRim(wheelDiameter, tireWidth);
-			cylinder(h=tireWidth, r=axilDiameter/2+5,center=true);
-		}
-		cylinder(h=tireWidth*2, r=axilDiameter/2,center=true, $fn = 20);
-	}
+    difference(){
+        union(){
+            tire(wheelDiameter, tireWidth);
+            simpleRim(wheelDiameter, tireWidth);
+            cylinder(h=tireWidth, r=axilDiameter/2+5,center=true);
+        }
+        cylinder(h=tireWidth*2, r=axilDiameter/2,center=true, $fn = 20);
+    }
 }
 
-wheel(3,50,10);
+module axilBush(axilDiameter, bushDepth, capHeight){
+    difference(){
+        union(){
+            cylinder(h=bushDepth, r=axilDiameter/2+5,center=true);
+            translate([0,0,bushDepth/2])cylinder(h=capHeight, r=axilDiameter/2+7,center=true);
+        }
+        cylinder(h=bushDepth*2, r=axilDiameter/2,center=true, $fn = 20);
+    }
+}
+
+wheel(4,50,10);
+translate([-15,45,0]) axilBush(4, 5, 2);
+translate([15,45,0]) axilBush(4, 5, 2);
