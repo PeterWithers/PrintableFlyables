@@ -42,7 +42,7 @@ module singleStrut(startX, startY, endX, endY){
 
 module horizontalStabiliser(height, span, chord){
 	echo(str("horizontalStabiliser(",height,",",span,",",chord,");"));
-        linear_extrude(height=2){
+        linear_extrude(height=4){
             // make the outer shape
             singleStrut(0, 0, chord, 0);
             singleStrut(0, 0, 0, span/2);
