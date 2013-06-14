@@ -37,6 +37,16 @@ fuselageLength = wingspan * 0.75;
 //fuselageLength = chordLength*4.5;
 fuselageRadius = fuselageLength*0.1/2;
 echo("fuselageLength: ",fuselageLength);
+echo("fuselageRadius: ",fuselageRadius);
+echo("stabiliserSpan: ",stabiliserSpan);
+echo("stabiliserHeight: ",stabiliserHeight);
+echo("stabiliserChord: ",stabiliserChord);
+echo("stabiliserArea: ",stabiliserArea);
+echo("finArea: ",finArea);
+echo("elevatorArea: ",elevatorArea);
+echo("elevatorChord: ",elevatorChord);
+echo("aileronLength: ",aileronLength);
+echo("aileronChord: ",aileronChord);
 
 module wing(innerIndexes, outerIndexes){
 	rotate([90,0,0])translate([0,0,0]) makeSkewers(chordRibLength, 210, 1.2, outerIndexes);
