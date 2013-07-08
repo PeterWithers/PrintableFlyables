@@ -128,11 +128,19 @@ module makeAerofoilFoam(chordLength, foamThickness){
     rotate3=50;
     length4=chordLength*0.04;
     rotate4=50;
+    length5=chordLength*0.08;
+    rotate5=40;
+    length6=chordLength*0.15;
+    rotate6=16;
+    length7=chordLength*0.25;
+    rotate7=7;
+    length8=chordLength*0.40;
+    rotate8=7;
     
     // there seems to be no sensible way to do this with a loop in openscad, so I am nesting the translations here :(
     translate([-chordLength/2,0,0]) {
         rotate([0,0,-2.4]) translate([0,7,0])
-			makeOuter(chordLength, 1);
+			makeOuter(chordLength, 0.3);
         translate([translate1,0,0]) {
             %cube([length1, foamThickness, chordLength/2]);
             rotate([0,0,-rotate2]) translate([-length2,0,0]) {
@@ -141,6 +149,18 @@ module makeAerofoilFoam(chordLength, foamThickness){
                     %cube([length3, foamThickness, chordLength/2]);
                     rotate([0,0,-rotate4]) translate([-length4,0,0]) {
                         %cube([length4, foamThickness, chordLength/2]);
+                        rotate([0,0,-rotate5]) translate([-length5,0,0]) {
+                            %cube([length5, foamThickness, chordLength/2]);
+                            rotate([0,0,-rotate6]) translate([-length6,0,0]) {
+                                %cube([length6, foamThickness, chordLength/2]);
+                                rotate([0,0,-rotate7]) translate([-length7,0,0]) {
+                                    %cube([length7, foamThickness, chordLength/2]);
+                                    rotate([0,0,-rotate8]) translate([-length8,0,0]) {
+                                        %cube([length8, foamThickness, chordLength/2]);
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -148,11 +168,11 @@ module makeAerofoilFoam(chordLength, foamThickness){
     }
 }
 
+// layout test one
 makeAerofoilFoam1(160, 5);
 
+// layout test two
 translate([0,30,0]) makeAerofoilFoam2(160, 5);
 
-// array values are translate, angle, length
-foilWalls = [[0, 0, chordLength]];
-
+// layout test three, which is good to use
 translate([0,60,0]) makeAerofoilFoam(160, 5);
