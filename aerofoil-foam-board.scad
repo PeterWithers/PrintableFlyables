@@ -96,88 +96,29 @@ module makeOuter(chordLength, wallThickness){
 		hull() makeFoilPoints(chordLength, 0.1);
 	}
 }
-module makeSkewers(chordLength, skewerLength, skewerSize, skewerIndexes){
-	strutIndexes = strutIndexesB;
-			for (index = skewerIndexes){
-				translate([aerofoilData[strutIndexes[index][1]][0]*chordLength, aerofoilData[strutIndexes[index][1]][1]*chordLength, skewerLength/2]) cylinder(r=skewerSize, h=skewerLength, center=true);
-			}
 
+module makeAerofoilFoam1(chordLength, foamThickness){
+    translate([-chordLength/2,0,0]) {
+        rotate([0,0,-2.4]) translate([0,7,0])
+			%makeOuter(chordLength, 1);
+        cube([chordLength, foamThickness, chordLength/2]);
+        translate([0,5,0]) cube([10, foamThickness, chordLength/2]);
+        translate([chordLength*0.63,5,0]) cube([20, foamThickness, chordLength/2]);
+        translate([0,10,0]) cube([chordLength*0.68, foamThickness, chordLength/2]);
+        translate([chordLength*0.1,15,0]) cube([chordLength*0.4, foamThickness, chordLength/2]);
+    }
 }
-module makeSkewerHoles(chordLength, spanLength, skewerSize, wallThickness, strutIndexes){
-		intersection() {
-			hull() makeFoilPoints(chordLength, 0.6);
-			for (strut = strutIndexes){
-				// make the skewer holes
-				//translate([aerofoilData[strut[0]][0]*chordLength, aerofoilData[strut[0]][1]*chordLength, 0]) scale([1/10, 1/10, 1/10]) 
-				//difference(){
-				//	circle(r=(skewerSize+wallThickness)*10, center=true);
-				//	circle(r=skewerSize*10, center=true);
-				//}
-				// do the other pair so that the first and last filet are made even though this doubles up a few
-				translate([aerofoilData[strut[1]][0]*chordLength, aerofoilData[strut[1]][1]*chordLength, 0]) scale([1/10, 1/10, 1/10]) 
-				difference(){
-					circle(r=(skewerSize+wallThickness)*10, center=true);
-					circle(r=skewerSize*10, center=true);
-				}
-			}
-		}
+module makeAerofoilFoam2(chordLength, foamThickness){
+    translate([-chordLength/2,0,0]) {
+        rotate([0,0,-2.4]) translate([0,7,0])
+			makeOuter(chordLength, 1);
+        %cube([chordLength, foamThickness, chordLength/2]);
+        %translate([0,5,0]) cube([10, foamThickness, chordLength/2]);
+        %translate([chordLength*0.50,13,0]) rotate([0,0,-10]) cube([chordLength*0.35, foamThickness, chordLength/2]);
+        %translate([0,20,0]) cube([chordLength*0.68, foamThickness, chordLength/2]);
+        %translate([chordLength*0.1,13,0]) cube([chordLength*0.4, foamThickness, chordLength/2]);
+    }
 }
+makeAerofoilFoam1(160, 5);
 
-module makeStruts(chordLength, spanLength, filetSize, wallThickness, strutIndexes){
-		intersection() {
-			hull() makeFoilPoints(chordLength, 0.6);
-			for (strut = strutIndexes){
-				// make the struts
-				hull(){
-					translate([aerofoilData[strut[0]][0]*chordLength, aerofoilData[strut[0]][1]*chordLength, 0]) circle(r=wallThickness/2, center=true);
-					translate([aerofoilData[strut[1]][0]*chordLength, aerofoilData[strut[1]][1]*chordLength, 0]) circle(r=wallThickness/2, center=true);
-				}
-				// make the fillets
-				translate([aerofoilData[strut[0]][0]*chordLength, aerofoilData[strut[0]][1]*chordLength, 0]) scale([1/10, 1/10, 1/10]) circle(r=filetSize*10, center=true);
-				// do the other pair so that the first and last filet are made even though this doubles up a few
-				translate([aerofoilData[strut[1]][0]*chordLength, aerofoilData[strut[1]][1]*chordLength, 0]) scale([1/10, 1/10, 1/10]) circle(r=filetSize*10, center=true);
-			}
-		}
-}
-
-module makeStrutsWithLayers(chordLength, spanLength, filetSize){
-	spacing = 2;
-	for (ribPos = [0:spacing:spanLength]) translate([0, 0, ribPos])
-		if (ribPos/spacing%2 == 1)
-			linear_extrude(height = spacing) makeStruts(chordLength, spanLength, filetSize, strutIndexesA);
-		else
-			linear_extrude(height = spacing) makeStruts(chordLength, spanLength, filetSize, strutIndexesB);
-//	intersection(){
-//		linear_extrude(height = spanLength) makeStruts(chordLength, spanLength, filetSize, strutIndexesA);
-		//for (ribPos = [0:10:spanLength]) translate([-5, -chordLength/2, ribPos]) cube([chordLength+10,chordLength,2]);
-//	}
-}
-
-module makeAeroFoil(chordLength, spanLength, wallThickness, skewerSize){
-	union(){
-		linear_extrude(height = spanLength) {
-		makeOuter(chordLength, wallThickness);
-		makeStruts(chordLength, spanLength, 1, wallThickness, strutIndexesA);
-		//makeStruts(chordLength, spanLength, 0, 0.4, strutIndexesB);
-		makeSkewerHoles(chordLength, spanLength, skewerSize, wallThickness, strutIndexesB);
-		}
-		//makeStrutsWithHoles(chordLength, spanLength, 0.6);
-		//makeStrutsWithLayers(chordLength, spanLength, 0.4);
-	}
-}
-module makeAerofoilPlate(chordLength, plateThickness, skewerSize){
-	difference(){
-		translate([0, 4.5,0]) rotate([0,0,-2.4]) 
-			linear_extrude(height = plateThickness) 
-				hull() makeFoilPoints(chordLength, 0.1);
-		translate([0, 4.5,0]) rotate([0,0,-2.4]) for (holePos = ribHoles)translate([holePos[0]*chordLength,holePos[1]*chordLength,plateThickness/2])
-			cylinder(h = plateThickness*3, r=skewerSize/2, center = true);
-	}
-}
-rotate([0,0,90])translate([-40,-20,0]) makeSkewers(120, 150, 1.2, [1,4,7,	10]);
-// 1.8 has fill between while 1.2 has a single line.
-rotate([0,0,90])translate([-40,-20,0]) makeAeroFoil(120, 2.0, 1.2, 2.8);
-rotate([0,0,90])translate([-40,   0,0]) makeAeroFoil(120, 2.0, 1.2, 2.8);
-rotate([0,0,90])translate([-40, 20,0]) makeAeroFoil(120, 2.0, 1.2, 2.8);
-rotate([0,0,90])translate([-40, 40,0]) makeAeroFoil(120, 2.0, 1.2, 2.8);
-//rotate([0,0,90])translate([-40, 0,0]) makeAerofoilPlate(120, 0.5, 3.2);
+translate([0,30,0]) makeAerofoilFoam2(160, 5);
