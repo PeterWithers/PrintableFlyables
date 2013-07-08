@@ -43,7 +43,8 @@ module noseCone(){
     difference(){
         union(){
             translate([0,0,noseConeCapHeight/2])cylinder(h=noseConeCapHeight, r=motorRadius, center=true);
-            translate([0,0,noseConeLength/2+noseConeCapHeight/2])
+            //translate([0,0,noseConeLength/2+noseConeCapHeight/2])
+            translate([0,0,noseConeLength/2+0.5])
 				rotate([0,0,10])fuselageMount(motorRadius,noseConeLength, wallThickness); //fuselageRib(motorRadius,noseConeLength, wallThickness, skewerRadius, false);
         }
         for (rotation = [0,90,180,270]){
@@ -67,4 +68,5 @@ module noseCone(){
 		cylinder(h=motorShaftHoleDepth*2, r=motorShaftHoleRadius*2, center=true);
     }
 }
+scale([-1,1,1])
 noseCone();
