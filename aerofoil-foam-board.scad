@@ -115,10 +115,44 @@ module makeAerofoilFoam2(chordLength, foamThickness){
         %cube([chordLength, foamThickness, chordLength/2]);
         %translate([0,5,0]) cube([10, foamThickness, chordLength/2]);
         %translate([chordLength*0.50,13,0]) rotate([0,0,-10]) cube([chordLength*0.35, foamThickness, chordLength/2]);
-        %translate([0,20,0]) cube([chordLength*0.68, foamThickness, chordLength/2]);
+        //%translate([0,20,0]) cube([chordLength*0.68, foamThickness, chordLength/2]);
         %translate([chordLength*0.1,13,0]) cube([chordLength*0.4, foamThickness, chordLength/2]);
     }
 }
+module makeAerofoilFoam(chordLength, foamThickness){
+    length1 = chordLength*0.96;
+    translate1 = chordLength*0.04;
+    length2 = chordLength*0.03;
+    rotate2 = 20;
+    length3=chordLength*0.04;
+    rotate3=50;
+    length4=chordLength*0.04;
+    rotate4=50;
+    
+    // there seems to be no sensible way to do this with a loop in openscad, so I am nesting the translations here :(
+    translate([-chordLength/2,0,0]) {
+        rotate([0,0,-2.4]) translate([0,7,0])
+			makeOuter(chordLength, 1);
+        translate([translate1,0,0]) {
+            %cube([length1, foamThickness, chordLength/2]);
+            rotate([0,0,-rotate2]) translate([-length2,0,0]) {
+                %cube([length2, foamThickness, chordLength/2]);
+                rotate([0,0,-rotate3]) translate([-length3,0,0]) {
+                    %cube([length3, foamThickness, chordLength/2]);
+                    rotate([0,0,-rotate4]) translate([-length4,0,0]) {
+                        %cube([length4, foamThickness, chordLength/2]);
+                    }
+                }
+            }
+        }
+    }
+}
+
 makeAerofoilFoam1(160, 5);
 
 translate([0,30,0]) makeAerofoilFoam2(160, 5);
+
+// array values are translate, angle, length
+foilWalls = [[0, 0, chordLength]];
+
+translate([0,60,0]) makeAerofoilFoam(160, 5);
