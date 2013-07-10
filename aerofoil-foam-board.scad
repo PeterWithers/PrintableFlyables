@@ -120,7 +120,8 @@ module makeAerofoilFoam2(chordLength, foamThickness){
     }
 }
 module makeAerofoilFoam3(chordLength, foamThickness){
-    length1 = chordLength*0.96;
+    ailerionChord = 40;
+    length1 = chordLength*0.96-ailerionChord;
     translate1 = chordLength*0.04;
     length2 = chordLength*0.03;
     rotate2 = 20;
@@ -134,13 +135,20 @@ module makeAerofoilFoam3(chordLength, foamThickness){
     rotate6=16;
     length7=chordLength*0.25;
     rotate7=7;
-    length8=chordLength*0.40;
+    length8=chordLength*0.27;
     rotate8=7;
     
     // there seems to be no sensible way to do this with a loop in openscad, so I am nesting the translations here :(
     translate([-chordLength/2,0,0]) {
         rotate([0,0,-2.4]) translate([0,7,0])
 			makeOuter(chordLength, 0.3);
+        translate([chordLength-40,0,0]) {
+            // make the ailerion
+            difference() {
+                cube([ailerionChord, foamThickness, chordLength/2]);
+                translate([0,0,-10]) rotate([0,0,45])cube([foamThickness*2, foamThickness*2, chordLength]);
+            }
+        }
         translate([translate1,0,0]) {
             %cube([length1, foamThickness, chordLength/2]);
             rotate([0,0,-rotate2]) translate([-length2,0,0]) {
@@ -167,7 +175,7 @@ module makeAerofoilFoam3(chordLength, foamThickness){
         }
     }
 }
-module makeAerofoilFoam(chordLength, foamThickness){
+module makeAerofoilFoam4(chordLength, foamThickness){
     ailerionChord = 40;
     length1 = chordLength*0.96-ailerionChord;
     translate1 = chordLength*0.04;
@@ -192,7 +200,65 @@ module makeAerofoilFoam(chordLength, foamThickness){
 			makeOuter(chordLength, 0.3);
         translate([chordLength-40,0,0]) {
             // make the ailerion
-            cube([ailerionChord, foamThickness, chordLength/2]);
+            difference() {
+                cube([ailerionChord, foamThickness, chordLength/2]);
+                translate([0,0,-10]) rotate([0,0,45])cube([foamThickness*2, foamThickness*2, chordLength]);
+            }
+        }
+        translate([translate1,0,0]) {
+            %cube([length1, foamThickness, chordLength/2]);
+            rotate([0,0,-rotate2]) translate([-length2,0,0]) {
+                %cube([length2, foamThickness, chordLength/2]);
+                rotate([0,0,-rotate3]) translate([-length3,0,0]) {
+                    %cube([length3, foamThickness, chordLength/2]);
+                    rotate([0,0,-rotate4]) translate([-length4,0,0]) {
+                        %cube([length4, foamThickness, chordLength/2]);
+                        rotate([0,0,-rotate5]) translate([-length5,0,0]) {
+                            %cube([length5, foamThickness, chordLength/2]);
+                            rotate([0,0,-rotate6]) translate([-length6,0,0]) {
+                                %cube([length6, foamThickness, chordLength/2]);
+                                rotate([0,0,-rotate7]) translate([-length7,0,0]) {
+                                    %cube([length7, foamThickness, chordLength/2]);
+                                    rotate([0,0,-rotate8]) translate([-length8,0,0]) {
+                                        %cube([length8, foamThickness, chordLength/2]);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}module makeAerofoilFoam(chordLength, foamThickness){
+    ailerionChord = 40;
+    length1 = chordLength*0.96-ailerionChord;
+    translate1 = chordLength*0.04;
+    length2 = chordLength*0.03;
+    rotate2 = 21;
+    length3=chordLength*0.04;
+    rotate3=50;
+    length4=chordLength*0.04;
+    rotate4=50;
+    length5=chordLength*0.08;
+    rotate5=40;
+    length6=chordLength*0.15;
+    rotate6=16;
+    length7=chordLength*0.25;
+    rotate7=7;
+    length8=chordLength*0.26;
+    rotate8=7;
+    
+    // there seems to be no sensible way to do this with a loop in openscad, so I am nesting the translations here :(
+    translate([-chordLength/2,0,0]) {
+        rotate([0,0,-2.4]) translate([0,7,0])
+			makeOuter(chordLength, 0.3);
+        translate([chordLength-40,0,0]) {
+            // make the ailerion
+            difference() {
+                cube([ailerionChord, foamThickness, chordLength/2]);
+                translate([0,0,-10]) rotate([0,0,45])cube([foamThickness*2, foamThickness*2, chordLength]);
+            }
         }
         translate([translate1,0,0]) {
             %cube([length1, foamThickness, chordLength/2]);
@@ -231,4 +297,7 @@ translate([0,30,0]) makeAerofoilFoam2(160, 5);
 translate([0,60,0]) makeAerofoilFoam3(160, 5);
 
 // layout test based on test three that also considers the aileron
-translate([0,90,0]) makeAerofoilFoam(160, 5);
+translate([0,90,0]) makeAerofoilFoam4(160, 5);
+
+// layout test based on test four that conserves the overall shape given that the ailerons are only 1/4 of the wing
+translate([0,120,0]) makeAerofoilFoam(160, 5);
